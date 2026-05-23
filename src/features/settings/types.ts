@@ -22,6 +22,7 @@ export interface AppConfig {
   rememberSurfaceSize: boolean;
   tileCtrlClose: boolean;
   tileRenderMarkdown: boolean;
+  tileOpacity: number;
   surfaceWidth?: number;
   surfaceHeight?: number;
   toggleVisibilityShortcut: string;

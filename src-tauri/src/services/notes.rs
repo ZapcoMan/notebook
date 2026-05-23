@@ -20,7 +20,7 @@ const LEGACY_MACOS_GLOBAL_SHORTCUTS: [&str; 5] = [
 #[cfg(target_os = "macos")]
 const MACOS_SHORTCUT_MIGRATION_MARKER: &str = ".macos-shortcut-default-v3";
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct AppConfig {
     #[serde(default = "default_locale")]
@@ -52,6 +52,8 @@ pub struct AppConfig {
     pub tile_ctrl_close: bool,
     #[serde(default)]
     pub tile_render_markdown: bool,
+    #[serde(default = "default_tile_opacity")]
+    pub tile_opacity: f64,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_width: Option<u32>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -658,6 +660,7 @@ impl NoteStore {
             remember_surface_size: default_remember_surface_size(),
             tile_ctrl_close: default_tile_ctrl_close(),
             tile_render_markdown: false,
+            tile_opacity: default_tile_opacity(),
             surface_width: None,
             surface_height: None,
             toggle_visibility_shortcut: default_toggle_visibility_shortcut(),
@@ -992,6 +995,10 @@ fn default_tile_ctrl_close() -> bool {
     true
 }
 
+fn default_tile_opacity() -> f64 {
+    1.0
+}
+
 fn default_toggle_visibility_shortcut() -> String {
     String::new()
 }
@@ -1136,6 +1143,7 @@ mod tests {
             remember_surface_size: true,
             tile_ctrl_close: true,
             tile_render_markdown: false,
+            tile_opacity: 1.0,
             surface_width: None,
             surface_height: None,
             toggle_visibility_shortcut: String::new(),

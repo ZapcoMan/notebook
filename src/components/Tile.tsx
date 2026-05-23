@@ -15,6 +15,7 @@ export interface TileProps extends Omit<
   rotation?: number;
   fontSize?: number;
   renderMarkdown?: boolean;
+  opacity?: number;
 }
 
 const MARK_SIZE = 8;
@@ -74,6 +75,7 @@ export function Tile({
   rotation = 0,
   fontSize = 14,
   renderMarkdown = false,
+  opacity = 1.0,
   className = "",
   style,
   children,
@@ -92,6 +94,7 @@ export function Tile({
     width,
     backgroundColor: tileColor,
     borderColor,
+    opacity,
     transition: "box-shadow 0.3s ease",
     ...(rotation ? { transform: `rotate(${rotation}deg)` } : {}),
     ...style,
