@@ -202,11 +202,11 @@ fn default_base_dir() -> Result<PathBuf, AppError> {
         return Ok(PathBuf::from(home)
             .join("Library")
             .join("Application Support")
-            .join("花笺"));
+            .join("笔记"));
     }
 
     if let Ok(user_profile) = env::var("USERPROFILE") {
-        return Ok(PathBuf::from(user_profile).join("Documents").join("花笺"));
+        return Ok(PathBuf::from(user_profile).join("Documents").join("笔记"));
     }
 
     Ok(env::current_dir()?.join("data"))
@@ -1015,7 +1015,7 @@ mod tests {
     fn test_root(name: &str) -> PathBuf {
         let base = std::env::var_os("FLORAL_NOTEPAPER_TEST_TEMP_DIR")
             .map(PathBuf::from)
-            .unwrap_or_else(|| std::env::temp_dir().join("floral-notepaper-rust-tests"));
+            .unwrap_or_else(|| std::env::temp_dir().join("notebooksever-rust-tests"));
         let root = base.join(name);
         if root.exists() {
             fs::remove_dir_all(&root).expect("remove stale test root");

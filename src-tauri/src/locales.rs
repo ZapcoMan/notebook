@@ -18,9 +18,9 @@ impl Locale {
 
 pub fn app_name(locale: Locale) -> &'static str {
     match locale {
-        Locale::ZhCn => "花笺",
-        Locale::EnUs => "Floral Notepaper",
-        Locale::ZhHk => "花箋",
+        Locale::ZhCn => "笔记",
+        Locale::EnUs => "NotebookSever",
+        Locale::ZhHk => "笔记",
     }
 }
 
@@ -30,17 +30,17 @@ pub fn main_window_title(locale: Locale) -> &'static str {
 
 pub fn notepad_window_title(locale: Locale) -> &'static str {
     match locale {
-        Locale::ZhCn => "花笺便签",
-        Locale::EnUs => "Floral Notepaper Quick Note",
-        Locale::ZhHk => "花箋便箋",
+        Locale::ZhCn => "笔记便签",
+        Locale::EnUs => "NotebookSever Quick Note",
+        Locale::ZhHk => "笔记便签",
     }
 }
 
 pub fn tile_window_title(locale: Locale) -> &'static str {
     match locale {
-        Locale::ZhCn => "花笺磁贴",
-        Locale::EnUs => "Floral Notepaper Pin Mode",
-        Locale::ZhHk => "花箋磁貼",
+        Locale::ZhCn => "笔记磁贴",
+        Locale::EnUs => "NotebookSever Pin Mode",
+        Locale::ZhHk => "笔记磁贴",
     }
 }
 
@@ -103,16 +103,16 @@ mod tests {
 
     #[test]
     fn localizes_native_shell_strings_for_supported_locales() {
-        assert_eq!(app_name(Locale::ZhCn), "花笺");
-        assert_eq!(app_name(Locale::EnUs), "Floral Notepaper");
-        assert_eq!(app_name(Locale::ZhHk), "花箋");
+        assert_eq!(app_name(Locale::ZhCn), "笔记");
+        assert_eq!(app_name(Locale::EnUs), "NotebookSever");
+        assert_eq!(app_name(Locale::ZhHk), "笔记");
 
         assert_eq!(
             notepad_window_title(Locale::EnUs),
-            "Floral Notepaper Quick Note"
+            "NotebookSever Quick Note"
         );
-        assert_eq!(tile_window_title(Locale::ZhHk), "花箋磁貼");
-        assert_eq!(tray_tooltip(Locale::EnUs), "Floral Notepaper");
+        assert_eq!(tile_window_title(Locale::ZhHk), "笔记磁贴");
+        assert_eq!(tray_tooltip(Locale::EnUs), "NotebookSever");
         assert_eq!(tray_show_main_label(Locale::EnUs), "Open Main Window");
         assert_eq!(tray_quick_note_label(Locale::ZhHk), "快速便箋");
         assert_eq!(

@@ -1,12 +1,12 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "花笺",
+  "productName": "笔记",
   "version": "1.0.4",
-  "identifier": "com.floral-notepaper.app",
+  "identifier": "com.notebooksever.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "taskkill /F /IM floral-notepaper.exe 2>nul & taskkill /F /IM 花笺.exe 2>nul & npm run build",
+    "beforeBuildCommand": "taskkill /F /IM notebooksever.exe 2>nul & taskkill /F /IM 笔记.exe 2>nul & npm run build",
     "frontendDist": "../dist"
   },
   "app": {
@@ -14,7 +14,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "花笺",
+        "title": "笔记",
         "width": 1180,
         "height": 760,
         "minWidth": 900,
