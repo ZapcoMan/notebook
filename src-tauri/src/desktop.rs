@@ -41,10 +41,22 @@ pub enum TrayMenuAction {
     Quit,
 }
 
+/// 系统托盘菜单项的静态配置规格。
+///
+/// 该结构体用于定义托盘菜单中每个选项的基础属性，
+/// 包括唯一标识、显示文本以及是否处于选中状态。
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct TrayMenuSpec {
+    /// 菜单项的唯一标识符，用于在事件处理中区分不同的菜单选项。
     pub id: &'static str,
+
+    /// 在系统托盘菜单中显示的文本标签。
     pub label: &'static str,
+
+    /// 菜单项的选中状态。
+    /// - `Some(true)`: 显示为已选中（通常带有勾选标记）。
+    /// - `Some(false)`: 显示为未选中。
+    /// - `None`: 该项不支持选中状态（普通菜单项）。
     pub checked: Option<bool>,
 }
 
