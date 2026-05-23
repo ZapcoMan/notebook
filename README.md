@@ -1,0 +1,73 @@
+<!-- markdownlint-disable -->
+
+<div align="center">
+
+# 花笺 Floral Notepaper
+
+轻量、优雅、现代化的本地便签工具<br>
+基于 Tauri 2 + React 构建
+
+[反馈问题]() · [更新日志]()
+
+[![Version](https://img.shields.io/github/v/release/your-username/floral-notepaper)](https://github.com/your-username/floral-notepaper/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![React 19](https://img.shields.io/badge/React-19-blue?logo=react)
+![Tauri v2](https://img.shields.io/badge/Tauri-v2-%2324C8D8?logo=tauri)
+![Rust Edition 2021](https://img.shields.io/badge/Rust-2021-%23000000?logo=rust)
+
+</div>
+
+<!-- markdownlint-restore -->
+
+---
+
+## 项目说明
+
+> **致敬声明**：本项目基于 [Achilng/floral-notepaper](https://github.com/Achilng/floral-notepaper) 进行二次开发，在此向原作者表示诚挚的敬意和感谢！
+
+## 功能特点
+
+- **Markdown 编辑与预览** — 支持 GitHub Flavored Markdown 语法，实时切换编辑和预览模式
+- **快捷便签** — 通过托盘或全局快捷键（默认 `Ctrl+Space`）随时唤出便签窗口
+- **磁贴模式** — 将笔记固定在桌面某处，以便快速查阅和复制
+- **导入导出** — 支持 `.md` 文件的导入和导出
+
+## 应用场景
+
+- 当作随时可见的剪贴板，快速暂存和复制文本
+- 游戏、看视频时随手记点东西
+- 临时记录思路或灵感
+- 桌面待办清单
+
+## 下载安装
+
+前往 [GitHub Releases](https://github.com/your-username/floral-notepaper/releases) 下载最新版本。
+
+## 从源码构建
+
+### 环境要求
+
+- [Node.js](https://nodejs.org/) 18+
+- [Rust](https://www.rust-lang.org/tools/install)
+- [Tauri CLI 2](https://tauri.app/)
+
+### 步骤
+
+```bash
+git clone https://github.com/your-username/floral-notepaper.git
+cd floral-notepaper
+
+npm install
+
+# 开发模式
+npm run tauri dev
+
+# 构建发布版本
+npm run tauri build
+```
+
+构建产物输出到 `src-tauri/target/release/bundle/`。
+
+## 许可证
+
+[MIT](LICENSE)
