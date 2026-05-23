@@ -2,14 +2,14 @@
 
 <div align="center">
 
-# 花笺 Floral Notepaper
+# 笔记
 
 轻量、优雅、现代化的本地便签工具<br>
 基于 Tauri 2 + React 构建
 
 [反馈问题]() · [更新日志]()
 
-[![Version](https://img.shields.io/github/v/release/your-username/floral-notepaper)](https://github.com/your-username/floral-notepaper/releases/latest)
+[![Version](https://img.shields.io/github/v/release/ZapcoMan/notebook)](https://github.com/ZapcoMan/notebook/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![React 19](https://img.shields.io/badge/React-19-blue?logo=react)
 ![Tauri v2](https://img.shields.io/badge/Tauri-v2-%2324C8D8?logo=tauri)
@@ -41,7 +41,7 @@
 
 ## 下载安装
 
-前往 [GitHub Releases](https://github.com/your-username/floral-notepaper/releases) 下载最新版本。
+前往 [GitHub Releases](https://github.com/ZapcoMan/notebook/releases) 下载最新版本。
 
 ## 从源码构建
 
@@ -54,8 +54,8 @@
 ### 步骤
 
 ```bash
-git clone https://github.com/your-username/floral-notepaper.git
-cd floral-notepaper
+git clone https://github.com/ZapcoMan/notebook.git
+cd notebook
 
 npm install
 
