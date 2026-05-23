@@ -10,7 +10,8 @@
     "lint": "oxlint",
     "fmt": "oxfmt",
     "preview": "vite preview",
-    "tauri": "tauri",
+    "tauri": "tauri ",
+    "tauridev": "tauri dev",
     "prepare": "husky"
   },
   "dependencies": {
