@@ -47,7 +47,7 @@
 
 ### 环境要求
 
-- [Node.js](https://nodejs.org/) 18+
+- [Node.js](https://nodejs.org/) 当前 Node 版本是 v24.15.0 这个项目至少需要 22.12.0 以上的版本
 - [Rust](https://www.rust-lang.org/tools/install)
 - [Tauri CLI 2](https://tauri.app/)
 
