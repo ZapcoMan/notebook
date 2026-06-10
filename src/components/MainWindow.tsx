@@ -1911,7 +1911,7 @@ export function MainWindow({
                   onClick={() => void handlePinEntry()}
                   disabled={!selectedId}
                   aria-label={pinTileButtonTitle(selectedTilePinned)}
-                  className={`w-7 h-7 flex items-center justify-center rounded-lg transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed ${
+                  className={`w-7 h-7 flex items-center justify-center rounded-lg transition-all cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed relative ${
                     selectedTilePinned
                       ? "text-bamboo bg-bamboo-mist/40 hover:text-red-400 hover:bg-danger-bg"
                       : "text-ink-ghost hover:text-bamboo hover:bg-bamboo-mist/50"
@@ -1931,7 +1931,43 @@ export function MainWindow({
                     <path d="M12 17v5" />
                     <path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1 1 1 0 0 1 1 1z" />
                   </svg>
+                  {pinnedTileIds.size > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-[14px] px-[3px] flex items-center justify-center rounded-full bg-bamboo text-cloud text-[9px] font-mono font-bold leading-none">
+                      {pinnedTileIds.size}
+                    </span>
+                  )}
                 </button>
+
+                {pinnedTileIds.size > 1 && (
+                  <button
+                    onClick={async () => {
+                      for (const id of pinnedTileIds) {
+                        try {
+                          await toggleTileWindow(id);
+                        } catch {}
+                      }
+                      setPinnedTileIds(new Set());
+                    }}
+                    className="px-2 h-7 flex items-center gap-1 rounded-lg text-[10px] text-ink-ghost hover:text-ink-faint hover:bg-paper-warm transition-all cursor-pointer"
+                    title={t("main.tile.unpinAll", {
+                      count: pinnedTileIds.size,
+                      defaultValue: "取消钉住全部 {{count}} 个磁贴",
+                    })}
+                  >
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    >
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                    <span>{t("main.tile.unpinAllLabel", { defaultValue: "全部取消" })}</span>
+                  </button>
+                )}
 
                 <button
                   onMouseDown={(event) => event.preventDefault()}
