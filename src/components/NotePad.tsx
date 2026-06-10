@@ -513,9 +513,14 @@ export function NotePad({
           data-note-id={tileNoteId}
           onMouseDown={handleDrag}
           showActions
+          editable
           onCopy={copyTileContent}
           onEdit={() => void openNoteInEditor(tileNoteId).catch(() => undefined)}
           onClose={handleClose}
+          onContentChange={(newContent) => {
+            setContent(newContent);
+            setStatus("dirty");
+          }}
         >
           <SurfaceResizeHandles />
         </Tile>

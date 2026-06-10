@@ -1,5 +1,5 @@
 import chroma from "chroma-js";
-import type { CSSProperties, HTMLAttributes } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type HTMLAttributes } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_TILE_COLOR, normalizeTileColor } from "../features/settings/tileColor";
 import { MarkdownPreview } from "../features/markdown/MarkdownPreview";
@@ -20,6 +20,8 @@ export interface TileProps extends Omit<
   onCopy?: () => void;
   onEdit?: () => void;
   onClose?: () => void;
+  editable?: boolean;
+  onContentChange?: (content: string) => void;
 }
 
 const MARK_SIZE = 8;
@@ -190,6 +192,8 @@ export function Tile({
   onCopy,
   onEdit,
   onClose,
+  editable = false,
+  onContentChange,
   className = "",
   style,
   children,
@@ -214,43 +218,74 @@ export function Tile({
     ...style,
   };
 
+  const [isEditing, setIsEditing] = useState(false);
+  const editAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleDoubleClick = () => {
+    if (editable && !isEditing) {
+      setIsEditing(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isEditing && editAreaRef.current) {
+      editAreaRef.current.focus();
+      editAreaRef.current.setSelectionRange(content.length, content.length);
+    }
+  }, [isEditing, content.length]);
+
   return (
     <div
       {...divProps}
       className={`app-surface-frame group/tile relative border overflow-hidden select-none shadow-[0_1px_8px_rgba(26,26,24,0.04)] hover:shadow-[0_6px_24px_rgba(26,26,24,0.07)] ${className}`}
       style={mergedStyle}
+      onDoubleClick={handleDoubleClick}
     >
-      <div className="px-4 pt-4 pb-4 h-full overflow-y-auto scrollbar-hidden">
-        {title && (
-          <div
-            className="font-display tracking-wide mb-3 leading-snug"
-            style={{ color: titleColor, fontSize: `${fontSize + 1}px` }}
-          >
-            {title}
-          </div>
-        )}
-        {content ? (
-          renderMarkdown ? (
-            <div style={{ color: contentColor }}>
-              <MarkdownPreview content={content} fontSize={fontSize} />
+      {isEditing ? (
+        <textarea
+          ref={editAreaRef}
+          value={content}
+          onChange={(e) => onContentChange?.(e.target.value)}
+          onBlur={() => setIsEditing(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setIsEditing(false);
+          }}
+          className="w-full h-full px-4 pt-4 pb-4 font-body leading-[1.8] bg-transparent resize-none"
+          style={{ color: contentColor, fontSize: `${fontSize}px`, outline: "none" }}
+        />
+      ) : (
+        <div className="px-4 pt-4 pb-4 h-full overflow-y-auto scrollbar-hidden">
+          {title && (
+            <div
+              className="font-display tracking-wide mb-3 leading-snug"
+              style={{ color: titleColor, fontSize: `${fontSize + 1}px` }}
+            >
+              {title}
             </div>
+          )}
+          {content ? (
+            renderMarkdown ? (
+              <div style={{ color: contentColor }}>
+                <MarkdownPreview content={content} fontSize={fontSize} />
+              </div>
+            ) : (
+              <div
+                className="leading-[1.8] whitespace-pre-wrap font-body"
+                style={{ color: contentColor, fontSize: `${fontSize}px` }}
+              >
+                {content}
+              </div>
+            )
           ) : (
             <div
-              className="leading-[1.8] whitespace-pre-wrap font-body"
-              style={{ color: contentColor, fontSize: `${fontSize}px` }}
+              className="font-body text-center py-6"
+              style={{ color: emptyColor, fontSize: `${fontSize}px` }}
             >
-              {content}
+              {t("tile.empty", { defaultValue: "空" })}
             </div>
-          )
-        ) : (
-          <div
-            className="font-body text-center py-6"
-            style={{ color: emptyColor, fontSize: `${fontSize}px` }}
-          >
-            {t("tile.empty", { defaultValue: "空" })}
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
 
       {showActions && (onCopy || onEdit || onClose) && (
         <TileActionBar color={tileColor} onCopy={onCopy} onEdit={onEdit} onClose={onClose} />
