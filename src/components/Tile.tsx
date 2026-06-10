@@ -16,6 +16,10 @@ export interface TileProps extends Omit<
   fontSize?: number;
   renderMarkdown?: boolean;
   opacity?: number;
+  showActions?: boolean;
+  onCopy?: () => void;
+  onEdit?: () => void;
+  onClose?: () => void;
 }
 
 const MARK_SIZE = 8;
@@ -67,6 +71,112 @@ function CornerMarks({ color }: { color: string }) {
   );
 }
 
+function TileActionBar({
+  color,
+  onCopy,
+  onEdit,
+  onClose,
+}: {
+  color: string;
+  onCopy?: () => void;
+  onEdit?: () => void;
+  onClose?: () => void;
+}) {
+  const { t } = useTranslation();
+  const isLight = chroma(color).luminance() > 0.18;
+  const btnColor = isLight ? "rgba(26,26,24,0.55)" : "rgba(255,255,255,0.6)";
+  const btnHoverBg = isLight ? "rgba(26,26,24,0.08)" : "rgba(255,255,255,0.12)";
+  const closeBtnColor = isLight ? "rgba(220,38,38,0.7)" : "rgba(248,113,113,0.8)";
+
+  return (
+    <div
+      className="absolute top-2 right-2 z-10 flex items-center gap-0.5 opacity-0 group-hover/tile:opacity-100 transition-opacity duration-200"
+      style={{ background: `${btnHoverBg}`, borderRadius: 6, padding: 2 }}
+    >
+      {onCopy && (
+        <button
+          type="button"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onCopy();
+          }}
+          className="w-6 h-6 flex items-center justify-center rounded transition-colors cursor-pointer"
+          style={{ color: btnColor }}
+          title={t("tile.action.copy", { defaultValue: "复制内容" })}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+        </button>
+      )}
+      {onEdit && (
+        <button
+          type="button"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit();
+          }}
+          className="w-6 h-6 flex items-center justify-center rounded transition-colors cursor-pointer"
+          style={{ color: btnColor }}
+          title={t("tile.action.edit", { defaultValue: "在编辑器中打开" })}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+            <polyline points="15 3 21 3 21 9" />
+            <line x1="10" y1="14" x2="21" y2="3" />
+          </svg>
+        </button>
+      )}
+      {onClose && (
+        <button
+          type="button"
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="w-6 h-6 flex items-center justify-center rounded transition-colors cursor-pointer"
+          style={{ color: closeBtnColor }}
+          title={t("tile.action.close", { defaultValue: "关闭" })}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
+
 export function Tile({
   title,
   content,
@@ -76,6 +186,10 @@ export function Tile({
   fontSize = 14,
   renderMarkdown = false,
   opacity = 1.0,
+  showActions = false,
+  onCopy,
+  onEdit,
+  onClose,
   className = "",
   style,
   children,
@@ -103,7 +217,7 @@ export function Tile({
   return (
     <div
       {...divProps}
-      className={`app-surface-frame relative border overflow-hidden select-none shadow-[0_1px_8px_rgba(26,26,24,0.04)] hover:shadow-[0_6px_24px_rgba(26,26,24,0.07)] ${className}`}
+      className={`app-surface-frame group/tile relative border overflow-hidden select-none shadow-[0_1px_8px_rgba(26,26,24,0.04)] hover:shadow-[0_6px_24px_rgba(26,26,24,0.07)] ${className}`}
       style={mergedStyle}
     >
       <div className="px-4 pt-4 pb-4 h-full overflow-y-auto scrollbar-hidden">
@@ -138,6 +252,9 @@ export function Tile({
         )}
       </div>
 
+      {showActions && (onCopy || onEdit || onClose) && (
+        <TileActionBar color={tileColor} onCopy={onCopy} onEdit={onEdit} onClose={onClose} />
+      )}
       <CornerMarks color={cornerColor} />
       {children}
     </div>

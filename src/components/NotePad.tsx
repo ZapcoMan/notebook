@@ -512,27 +512,11 @@ export function NotePad({
           data-context-menu="tile"
           data-note-id={tileNoteId}
           onMouseDown={handleDrag}
+          showActions
+          onCopy={copyTileContent}
+          onEdit={() => void openNoteInEditor(tileNoteId).catch(() => undefined)}
+          onClose={handleClose}
         >
-          <button
-            type="button"
-            aria-label="取消钉屏"
-            title="取消钉屏"
-            onMouseDown={(event) => event.stopPropagation()}
-            onClick={() => void handleClose()}
-            className="absolute top-2 right-2 z-10 w-6 h-6 flex items-center justify-center rounded-full text-ink-ghost/70 hover:text-red-400 hover:bg-danger-bg/80 transition-colors cursor-pointer"
-          >
-            <svg
-              width="12"
-              height="12"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
           <SurfaceResizeHandles />
         </Tile>
       ) : (
