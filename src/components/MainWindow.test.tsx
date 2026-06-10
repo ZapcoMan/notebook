@@ -26,6 +26,7 @@ describe("MainWindow settings", () => {
           tileCtrlClose: true,
           toggleVisibilityShortcut: "",
           tileRenderMarkdown: false,
+          tileOpacity: 1,
         }}
       />,
     );

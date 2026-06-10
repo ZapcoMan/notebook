@@ -21,6 +21,7 @@ const config = {
   tileCtrlClose: true,
   toggleVisibilityShortcut: "",
   tileRenderMarkdown: false,
+  tileOpacity: 1,
 };
 
 describe("SettingsPanel", () => {

@@ -446,12 +446,31 @@ export function MainWindow({
     [filteredNotes, categories],
   );
 
-  const lineCount = useMemo(() => content.split("\n").length, [content]);
   const byteSize = useMemo(
     () => (new TextEncoder().encode(content).length / 1024).toFixed(1),
     [content],
   );
   const charCount = useMemo(() => countNoteChars(content), [content]);
+
+  const [cursorPos, setCursorPos] = useState({ line: 1, col: 1 });
+
+  const updateCursorPos = useCallback(() => {
+    const ta = contentRef.current;
+    if (!ta) return;
+    const pos = ta.selectionStart;
+    const textBefore = ta.value.slice(0, pos);
+    const line = textBefore.split("\n").length;
+    const lastNewline = textBefore.lastIndexOf("\n");
+    const col = pos - lastNewline;
+    setCursorPos({ line, col });
+  }, []);
+
+  const readingTime = useMemo(() => {
+    const chars = charCount;
+    if (chars === 0) return "< 1";
+    const minutes = Math.ceil(chars / 300);
+    return `${minutes}`;
+  }, [charCount]);
 
   const applyNote = useCallback((note: Note) => {
     setSelectedId(note.id);
@@ -2168,6 +2187,9 @@ export function MainWindow({
                             setContent(event.target.value);
                             markDirty();
                           }}
+                          onSelect={updateCursorPos}
+                          onClick={updateCursorPos}
+                          onKeyUp={updateCursorPos}
                           className="w-full h-full leading-[1.9] text-ink-soft font-body placeholder:text-ink-ghost/40"
                           style={{ fontSize: `${settingsConfig?.fontSize ?? 14}px` }}
                           placeholder={t("main.editor.contentPlaceholder", {
@@ -2229,10 +2251,42 @@ export function MainWindow({
               <div className="flex items-center gap-3">
                 <span className="text-[10px] text-ink-ghost font-mono tabular-nums">
                   {t("main.statusBar.lineNumber", {
-                    count: lineCount,
+                    count: cursorPos.line,
                     defaultValue: "Ln {{count}}",
                   })}
+                  ,{" "}
+                  {t("main.statusBar.columnNumber", {
+                    count: cursorPos.col,
+                    defaultValue: "Col {{count}}",
+                  })}
                 </span>
+                <span className="text-[10px] text-ink-ghost/40">|</span>
+                <span className="text-[10px] text-ink-ghost font-mono">
+                  {t("main.statusBar.readingTime", {
+                    minutes: readingTime,
+                    defaultValue: "≈ {{minutes}} min",
+                  })}
+                </span>
+                {selectedNote?.category && (
+                  <>
+                    <span className="text-[10px] text-ink-ghost/40">|</span>
+                    <span className="inline-flex items-center gap-1 px-1.5 h-4 rounded bg-bamboo-mist/50 text-[10px] text-bamboo font-body">
+                      <svg
+                        width="9"
+                        height="9"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                      </svg>
+                      {selectedNote.category}
+                    </span>
+                  </>
+                )}
                 <span className="text-[10px] text-ink-ghost/40">|</span>
                 <span className="text-[10px] text-ink-ghost font-mono">
                   {t("main.statusBar.format", { defaultValue: "Markdown + LaTeX" })}
